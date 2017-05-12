@@ -12,11 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ToggleButton;
+import android.widget.Switch;
+import android.widget.Toast;
 
 public class FullscreenActivity extends AppCompatActivity {
 
-    ToggleButton onbtn;
+    Switch onbtn;
+    ImageButton questionbtn;
     private CameraManager mCameraManager;
     private String mCameraId;
     private Boolean isTorchOn;
@@ -33,8 +35,11 @@ public class FullscreenActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
-        onbtn = (ToggleButton) findViewById(R.id.toggleButton);
-
+        onbtn = (Switch) findViewById(R.id.switch1);
+        questionbtn = (ImageButton) findViewById(R.id.imageButton2);
+        //RelativeLayout relativeLayout = new RelativeLayout(this);
+        //onbtn.setBackground(getResources().getDrawable(R.mipmap.switchoff));
+        //onbtn.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
 
         isTorchOn = false;
@@ -85,6 +90,14 @@ public class FullscreenActivity extends AppCompatActivity {
                 }
             }
         });
+
+        questionbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplication(),"Programmer: Manuel Koliqi v1.0.0",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void turnOnFlashLight() {
@@ -92,8 +105,8 @@ public class FullscreenActivity extends AppCompatActivity {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 mCameraManager.setTorchMode(mCameraId, true);
-
-                //mTorchOnOffButton.setImageResource(R.drawable.on);
+                //onbtn.setBackground(getResources().getDrawable(R.mipmap.switchon));
+                onbtn.setText("ON    ");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,7 +119,8 @@ public class FullscreenActivity extends AppCompatActivity {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 mCameraManager.setTorchMode(mCameraId, false);
-                // mTorchOnOffButton.setImageResource(R.drawable.off);
+                //onbtn.setBackground(getResources().getDrawable(R.mipmap.switchoff));
+                onbtn.setText("OFF    ");
             }
 
         } catch (Exception e) {
